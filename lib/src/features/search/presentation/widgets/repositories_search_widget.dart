@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:github_app/src/features/search/application/search_service.dart';
@@ -17,7 +15,6 @@ class RepositoriesSearchWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log('repositories search $query');
     final repositorySearchAsyncValue =
         ref.watch(repositorySearchProvider(query));
 
