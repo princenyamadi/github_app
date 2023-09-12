@@ -15,25 +15,6 @@ final dioClientProvider = Provider((ref) => Dio(
       ),
     ));
 
-// static final _dio = Dio(
-//   BaseOptions(
-//     baseUrl: _baseUrl,
-//     headers: {
-//       'Accept': 'application/vnd.github+json',
-//       'X-GitHub-Api-Version': '2022-11-28',
-//       'Authorization': 'Bearer ${Env.githubToken}'
-//     },
-//   ),
-// );
-// static final _dio2 = Dio(
-//   BaseOptions(
-//     headers: {
-//       'Accept': 'application/vnd.github+json',
-//       'X-GitHub-Api-Version': '2022-11-28',
-//       'Authorization': 'Bearer ${Env.githubToken}'
-//     },
-//   ),
-// );
 class SearchApiService {
   SearchApiService({required this.dio});
   final Dio dio;
