@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:github_app/src/features/search/data/api/search_api_service.dart';
 import 'package:github_app/src/features/search/data/remote/remote_github_search_repository_impl.dart';
 
 import 'package:github_app/src/features/search/domain/repository_response/repository_response.dart';
@@ -34,6 +35,7 @@ abstract class RemoteGithubSearchRepository {
 RemoteGithubSearchRepository remoteGithubSearchRepository(
     RemoteGithubSearchRepositoryRef ref) {
   final networkInfo = ref.read(networkInfoProvider);
-
-  return RemoteGithubSearchRepositoryImpl(networkInfo: networkInfo);
+  final searchApiService = ref.watch(searchApiServiceProvider);
+  return RemoteGithubSearchRepositoryImpl(
+      networkInfo: networkInfo, searchApiService: searchApiService);
 }
