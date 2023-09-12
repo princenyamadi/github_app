@@ -10,10 +10,7 @@ import 'src/exceptions/error_logger.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // turn off the # in the URLs on the web
-  // usePathUrlStrategy();
-  // ensure URL changes in the address bar when using push / pushNamed
-  // more info here: https://docs.google.com/document/d/1VCuB85D5kYxPR3qYOjVmw8boAGKb7k62heFyfFHTOvw/edit
+  //* go router
   GoRouter.optionURLReflectsImperativeAPIs = true;
   // * Register error handlers. For more info, see:
   // * https://docs.flutter.dev/testing/errors
