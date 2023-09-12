@@ -16,7 +16,10 @@ import '../../domain/github_user_search_response/github_user_search_response.dar
 class RemoteGithubSearchRepositoryImpl implements RemoteGithubSearchRepository {
   final NetworkInfo networkInfo;
 
-  RemoteGithubSearchRepositoryImpl({required this.networkInfo});
+  final SearchApiService searchApiService;
+
+  RemoteGithubSearchRepositoryImpl(
+      {required this.networkInfo, required this.searchApiService});
 
   Future<Either<Failure, Response>> execute(Future<Response> asyncCall) async {
     // * check for internet connectivity
@@ -50,7 +53,7 @@ class RemoteGithubSearchRepositoryImpl implements RemoteGithubSearchRepository {
   Future<Either<Failure, GithubRepositorySearchResponse>> searchRepositories(
       String query) async {
     try {
-      final result = await execute(SearchApiService.searchRepositories(query));
+      final result = await execute(searchApiService.searchRepositories(query));
 
       return result.fold(
         (failure) {
@@ -71,7 +74,7 @@ class RemoteGithubSearchRepositoryImpl implements RemoteGithubSearchRepository {
   Future<Either<Failure, GithubUserSearchResponse>> searchUsers(
       String query) async {
     try {
-      final result = await execute(SearchApiService.searchUsers(query));
+      final result = await execute(searchApiService.searchUsers(query));
 
       return result.fold(
         (failure) {
@@ -91,7 +94,7 @@ class RemoteGithubSearchRepositoryImpl implements RemoteGithubSearchRepository {
   @override
   Future<Either<Failure, UserResponse>> getUser(String username) async {
     try {
-      final result = await execute(SearchApiService.getUser(username));
+      final result = await execute(searchApiService.getUser(username));
 
       return result.fold(
         (failure) {
@@ -112,7 +115,7 @@ class RemoteGithubSearchRepositoryImpl implements RemoteGithubSearchRepository {
   Future<Either<Failure, List<RepositoryResponse>>> getUsersRepos(
       String username) async {
     try {
-      final result = await execute(SearchApiService.getUsersRepos(username));
+      final result = await execute(searchApiService.getUsersRepos(username));
 
       return result.fold(
         (failure) {
@@ -139,7 +142,7 @@ class RemoteGithubSearchRepositoryImpl implements RemoteGithubSearchRepository {
   @override
   Future<Map<String, dynamic>> getRepositoriesLanguages(String url) async {
     try {
-      final result = await execute(SearchApiService.getDataFromURL(url));
+      final result = await execute(searchApiService.getDataFromURL(url));
 
       return result.fold(
         (failure) {
