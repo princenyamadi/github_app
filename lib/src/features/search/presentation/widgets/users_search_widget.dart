@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:github_app/src/constants/app_sizes.dart';
@@ -12,7 +10,6 @@ import 'package:github_app/src/routing/app_router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ui_common/ui_common.dart';
 
-import '../../domain/github_user_search_response/item.dart';
 import 'user_list_tile.dart';
 
 class UserSearchWidget extends ConsumerWidget {
@@ -21,8 +18,6 @@ class UserSearchWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log('user search $query');
-
     final userSearchAsyncValue = ref.watch(userSearchProvider(query));
     return query.isEmpty
         ? Column(

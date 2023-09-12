@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:github_app/src/env/env.dart';
 
@@ -31,11 +29,8 @@ class SearchApiService {
   static Future<Response> searchUsers(String query) async {
     try {
       final response = await _dio.get('/search/users?q=$query');
-      log('------\n\n $response\n\n');
       return response;
     } catch (e) {
-      log('-----------------------\n\nresponse error: ${e.toString()}',
-          name: 'searchUsers', error: e);
       final dioError = e as DioError;
       return dioError.response!;
     }
@@ -45,11 +40,8 @@ class SearchApiService {
   static Future<Response> searchRepositories(String query) async {
     try {
       final response = await _dio.get('/search/repositories?q=$query');
-      log('------\n\n $response\n\n');
       return response;
     } catch (e) {
-      log('-----------------------\n\nresponse error: ${e.toString()}',
-          name: 'searchRepositories', error: e);
       final dioError = e as DioError;
       return dioError.response!;
     }
@@ -59,11 +51,9 @@ class SearchApiService {
   static Future<Response> getUser(String username) async {
     try {
       final response = await _dio.get('/users/$username');
-      log('------\n\n $response\n\n');
+
       return response;
     } catch (e) {
-      log('-----------------------\n\nresponse error: ${e.toString()}',
-          name: 'searchRepositories', error: e);
       final dioError = e as DioError;
       return dioError.response!;
     }
@@ -74,11 +64,9 @@ class SearchApiService {
     try {
       // https://api.github.com/users/USERNAME/repos
       final response = await _dio.get('/users/$username/repos');
-      log('------\n\n $response\n\n', name: 'getUsersRepos');
+
       return response;
     } catch (e) {
-      log('-----------------------\n\nresponse error: ${e.toString()}',
-          name: 'getUsersRepos', error: e);
       final dioError = e as DioError;
       return dioError.response!;
     }
@@ -104,14 +92,10 @@ class SearchApiService {
     try {
       // https://api.github.com/users/USERNAME/repos
       final response = await _dio2.get(url);
-      log('------\n\n $response\n\n', name: 'getRepositoriesLanguages');
       return response;
     } catch (e) {
-      log('-----------------------\n\nresponse error: ${e.toString()}',
-          name: 'getRepositoriesLanguages', error: e);
       final dioError = e as DioError;
       return dioError.response!;
     }
   }
 }
-        // "languages_url": "https://api.github.com/repos/princenyamadi/AlDente/languages",

@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:github_app/src/features/search/application/search_service.dart';
 import 'package:github_app/src/features/search/domain/user_response/user_response.dart';
 import 'package:github_app/src/utils/currency_formatter.dart';
 import 'package:github_app/src/utils/date_formatter.dart';
-import 'package:intl/intl.dart';
 import 'package:ui_common/ui_common.dart';
 
 import '../../../../constants/app_sizes.dart';
@@ -24,7 +21,6 @@ class UserListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log('avatar url: ${item.avatarUrl}');
     final githubUserAsyncValue = ref.watch(githubUserProvider(item.login!));
 
     return githubUserAsyncValue.when(

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -85,7 +83,6 @@ class RepositoryTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    log('languages: $languages');
     return GestureDetector(
       onTap: onPressed,
       child: Container(
