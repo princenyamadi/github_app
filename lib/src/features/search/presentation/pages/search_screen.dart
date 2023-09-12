@@ -1,10 +1,11 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:github_app/src/constants/app_sizes.dart';
 import 'package:github_app/src/constants/assets/svgs.dart';
+import 'package:github_app/src/constants/color/colors.dart';
 import 'package:github_app/src/features/search/presentation/widgets/repositories_search_widget.dart';
 import 'package:github_app/src/features/search/presentation/widgets/users_search_widget.dart';
 import 'package:github_app/src/localization/string_hardcoded.dart';
@@ -23,12 +24,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   final debouncer = Debouncer(milliseconds: 1000);
 
   final searchQueryProvider = StateProvider<String>((ref) => '');
+  final searchPageNotifier = ValueNotifier<int>(0);
 
   @override
   void initState() {
-    searchController.addListener(() {
-      log('inside here');
-    });
     super.initState();
   }
 
@@ -53,7 +52,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               TextFormField(
                 onChanged: (input) {
                   debouncer.run(() {
-                    log('took a shower: $input');
                     searchReader.state = input;
                   });
                 },
@@ -66,21 +64,28 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     hintText: 'Search for users or repositories'.hardcoded),
               ),
               gapH24,
-              Row(
-                children: [
-                  Text(
-                    'Users'.hardcoded,
-                    style: context.titleMedium.copyWith(),
-                  ),
-                  gapW20,
-                  Text(
-                    'Repositories'.hardcoded,
-                    style: context.titleMedium,
-                  ),
-                ],
-              ),
+              ValueListenableBuilder(
+                  valueListenable: searchPageNotifier,
+                  builder: (context, searchNotifier, _) {
+                    return Row(
+                      children: [
+                        TitleWidget(
+                          title: 'Users',
+                          showBorder: searchNotifier == 0,
+                        ),
+                        gapW20,
+                        TitleWidget(
+                          title: 'Repositories',
+                          showBorder: searchNotifier == 1,
+                        ),
+                      ],
+                    );
+                  }),
               Expanded(
                 child: PageView(
+                  onPageChanged: (page) {
+                    searchPageNotifier.value = page;
+                  },
                   children: [
                     UserSearchWidget(query: searchQuery),
                     RepositoriesSearchWidget(query: searchQuery),
@@ -90,5 +95,34 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             ],
           ),
         ));
+  }
+}
+
+class TitleWidget extends StatelessWidget {
+  final bool showBorder;
+  final String title;
+  const TitleWidget({super.key, required this.showBorder, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+      duration: const Duration(microseconds: 500),
+      decoration: BoxDecoration(
+        // color: GAColors.primary,
+        border: Border(
+          bottom: BorderSide(
+            width: 2,
+            color: showBorder ? GAColors.primary : Colors.transparent,
+          ),
+        ),
+      ),
+      child: Column(children: [
+        Text(
+          title.hardcoded,
+          style: context.titleMedium.copyWith(),
+        ),
+      ]),
+    );
   }
 }
