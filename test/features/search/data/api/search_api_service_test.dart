@@ -6,9 +6,6 @@ import 'package:mockito/mockito.dart';
 
 import 'search_api_service_test.mocks.dart';
 
-// Create a mock Dio client
-// class MockDio extends Mock implements Dio {}
-
 @GenerateMocks([Dio])
 void main() {
   group('SearchApiService', () {
