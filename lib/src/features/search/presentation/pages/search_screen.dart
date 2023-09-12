@@ -25,6 +25,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   final searchQueryProvider = StateProvider<String>((ref) => '');
   final searchPageNotifier = ValueNotifier<int>(0);
+  final searchPageController = PageController();
 
   @override
   void initState() {
@@ -71,11 +72,27 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       children: [
                         TitleWidget(
                           title: 'Users',
+                          onPressed: () {
+                            searchPageController.animateToPage(
+                              0,
+                              duration: Duration(milliseconds: 600),
+                              curve: Curves.decelerate,
+                            );
+                            searchPageNotifier.value = 0;
+                          },
                           showBorder: searchNotifier == 0,
                         ),
                         gapW20,
                         TitleWidget(
                           title: 'Repositories',
+                          onPressed: () {
+                            searchPageController.animateToPage(
+                              1,
+                              duration: Duration(milliseconds: 600),
+                              curve: Curves.decelerate,
+                            );
+                            searchPageNotifier.value = 1;
+                          },
                           showBorder: searchNotifier == 1,
                         ),
                       ],
@@ -83,6 +100,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   }),
               Expanded(
                 child: PageView(
+                  controller: searchPageController,
                   onPageChanged: (page) {
                     searchPageNotifier.value = page;
                   },
@@ -101,28 +119,36 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 class TitleWidget extends StatelessWidget {
   final bool showBorder;
   final String title;
-  const TitleWidget({super.key, required this.showBorder, required this.title});
+  final Function()? onPressed;
+  const TitleWidget(
+      {super.key,
+      required this.showBorder,
+      required this.title,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
-      duration: const Duration(microseconds: 500),
-      decoration: BoxDecoration(
-        // color: GAColors.primary,
-        border: Border(
-          bottom: BorderSide(
-            width: 2,
-            color: showBorder ? GAColors.primary : Colors.transparent,
+    return GestureDetector(
+      onTap: onPressed,
+      child: AnimatedContainer(
+        padding: const EdgeInsets.symmetric(vertical: Sizes.p8),
+        duration: const Duration(microseconds: 500),
+        decoration: BoxDecoration(
+          // color: GAColors.primary,
+          border: Border(
+            bottom: BorderSide(
+              width: 2,
+              color: showBorder ? GAColors.primary : Colors.transparent,
+            ),
           ),
         ),
+        child: Column(children: [
+          Text(
+            title.hardcoded,
+            style: context.titleMedium.copyWith(),
+          ),
+        ]),
       ),
-      child: Column(children: [
-        Text(
-          title.hardcoded,
-          style: context.titleMedium.copyWith(),
-        ),
-      ]),
     );
   }
 }
